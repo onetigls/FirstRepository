@@ -160,10 +160,11 @@ namespace Сomputing_process
 
         public void MovingCentre(PointXY newCentre)
         {
+            PointXY oldCentre = CentrePoint;
 
-            A = A + newCentre;
-            B = B + newCentre;
-            C = C + newCentre;
+            A = A + (newCentre - CentrePoint);
+            B = B + (newCentre - CentrePoint);
+            C = C + (newCentre - CentrePoint);
         }
 
         public void Turn(double angleInDegrees)
