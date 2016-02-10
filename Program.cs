@@ -8,13 +8,21 @@ namespace Сomputing_process
     {
         static void Main()
         {
-            Triangle TestTriangle = new Triangle(new PointXY(-1.0,0.0), new PointXY(0.0, 1.0), new PointXY(1.0, 0.0));
+            Triangle TestTriangle = new Triangle(new PointXY(-1.0, 0.0), new PointXY(0.0, 1.0), new PointXY(1.0, 0.0));
             Console.WriteLine("A = " + TestTriangle.A.ShowPoint());
             Console.WriteLine("B = " + TestTriangle.B.ShowPoint());
             Console.WriteLine("C = " + TestTriangle.C.ShowPoint());
 
             Console.WriteLine();
-            TestTriangle.Increas(3.0); 
+            TestTriangle.Turn(90.0);
+
+            Console.WriteLine("A = " + TestTriangle.A.ShowPoint());
+            Console.WriteLine("B = " + TestTriangle.B.ShowPoint());
+            Console.WriteLine("C = " + TestTriangle.C.ShowPoint());
+
+
+            Console.WriteLine();
+            TestTriangle.Increas(3.0);
 
             Console.WriteLine("A = " + TestTriangle.A.ShowPoint());
             Console.WriteLine("B = " + TestTriangle.B.ShowPoint());
@@ -23,9 +31,7 @@ namespace Сomputing_process
             Console.WriteLine();
             TestTriangle.MovingCentre(new PointXY(1.0, 1.0));
 
-            Console.WriteLine("A = " + TestTriangle.A.ShowPoint());
-            Console.WriteLine("B = " + TestTriangle.B.ShowPoint());
-            Console.WriteLine("C = " + TestTriangle.C.ShowPoint());
+           
 
 
             Console.ReadKey();
@@ -117,7 +123,7 @@ namespace Сomputing_process
             get;
             private set;
         }
-         
+
         public PointXY C
         {
             get;
@@ -146,10 +152,10 @@ namespace Сomputing_process
 
         public void Increas(double multiplier)
         {
-            PointXY CentrePoint = this.CentrePoint;
-            A = (multiplier * (A - CentrePoint)) + CentrePoint;
-            B = (multiplier * (B - CentrePoint)) + CentrePoint;
-            C = (multiplier * (C - CentrePoint)) + CentrePoint;
+            PointXY centrePoint = this.CentrePoint;
+            A = (multiplier * (A - centrePoint)) + centrePoint;
+            B = (multiplier * (B - centrePoint)) + centrePoint;
+            C = (multiplier * (C - centrePoint)) + centrePoint;
         }
 
         public void MovingCentre(PointXY newCentre)
@@ -160,8 +166,32 @@ namespace Сomputing_process
             C = C + newCentre;
         }
 
-    }
+        public void Turn(double angleInDegrees)
+        {                        
+            double angleInRadian = (angleInDegrees * Math.PI) / 180;
+            PointXY centrePoint = this.CentrePoint;
+            A = TurnPoint(A, centrePoint, angleInRadian);
+            B = TurnPoint(B, centrePoint, angleInRadian);
+            C = TurnPoint(C, centrePoint, angleInRadian);
+        }
 
+       
+
+        PointXY TurnPoint(PointXY somePoint, PointXY centrePoint, double angleInRadian)
+        {
+            PointXY temporaryPoint = somePoint;
+
+            temporaryPoint.x = temporaryPoint.x - centrePoint.x;
+            temporaryPoint.y = temporaryPoint.y - centrePoint.y;
+
+            somePoint.x = (Math.Cos(angleInRadian) * temporaryPoint.x) - (Math.Sin(angleInRadian) * temporaryPoint.y);
+            somePoint.y = (Math.Sin(angleInRadian) * temporaryPoint.x) + (Math.Cos(angleInRadian) * temporaryPoint.y);
+
+            somePoint.x = somePoint.x + centrePoint.x;
+            somePoint.y = somePoint.y + centrePoint.y;
+            return somePoint;
+        }
+    }
 }
 
 
